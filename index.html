@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MoneyNote – Quản Lý Thu Chi Cá Nhân</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout">
+    
+    <!-- THANH MENU BÊN TRÁI (SIDEBAR) -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <div class="logo-icon-box">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="16" rx="3" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <circle cx="16" cy="14" r="1.5" fill="currentColor" />
+            </svg>
+          </div>
+          <span class="logo-text">MoneyNote</span>
+        </div>
+      </div>
+
+      <!-- Navigation items -->
+      <nav class="sidebar-nav">
+        <a href="#overview" class="nav-item active" data-nav="overview">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="3" width="7" height="7" rx="1.5" />
+            <rect x="14" y="14" width="7" height="7" rx="1.5" />
+            <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          </svg>
+          <span>Tổng quan</span>
+        </a>
+
+        <a href="#transactions" class="nav-item" data-nav="transactions">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <line x1="3" y1="6" x2="3.01" y2="6" />
+            <line x1="3" y1="12" x2="3.01" y2="12" />
+            <line x1="3" y1="18" x2="3.01" y2="18" />
+          </svg>
+          <span>Giao dịch</span>
+        </a>
+
+        <a href="#statistics" class="nav-item" data-nav="statistics">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+          <span>Thống kê</span>
+        </a>
+
+        <a href="#settings" class="nav-item" data-nav="settings">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+          <span>Cài đặt</span>
+        </a>
+      </nav>
+
+      <!-- Sidebar footer with theme switch -->
+      <div class="sidebar-footer">
+        <button id="theme-toggle-btn" class="theme-switch-btn" title="Chuyển chế độ Sáng / Tối">
+          <span class="theme-icon-box">
+            <svg id="theme-icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+            </svg>
+            <svg id="theme-icon-moon" class="hidden" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+          </span>
+          <span id="theme-mode-text" class="theme-label">Giao diện Sáng</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- NỘI DUNG CHÍNH (MAIN AREA) -->
+    <div class="app-main">
+      
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <!-- Bộ chuyển tháng dạng mũi tên < Tháng MM/YYYY > -->
+          <div class="month-selector-wrapper">
+            <button id="btn-prev-month" class="btn-arrow" title="Tháng trước">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <div class="month-text-box">
+              <span class="greeting-subtitle">Xin chào, Minh</span>
+              <h2 id="current-month-heading" class="month-heading">Tháng 10/2026</h2>
+              <input type="month" id="filter-month" class="hidden-month-input" />
+            </div>
+            <button id="btn-next-month" class="btn-arrow" title="Tháng sau">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="top-bar-right">
+          <!-- Ô tìm kiếm ghi chú trên Top Bar -->
+          <div class="search-box">
+            <svg class="search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input type="text" id="filter-search" class="search-input" placeholder="Tìm theo ghi chú..." />
+            <button id="btn-clear-search" class="clear-search-btn hidden" title="Xóa tìm kiếm">&times;</button>
+          </div>
+
+          <!-- Nút Thêm giao dịch chính -->
+          <button id="btn-open-add-modal" class="btn btn-primary-add">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            <span>Thêm giao dịch</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT WRAPPER -->
+      <main class="page-body">
+        
+        <!-- ================================================================
+             VIEW 1: TỔNG QUAN (DASHBOARD)
+             ================================================================ -->
+        <div id="view-overview" class="view-panel active-view">
+          
+          <!-- HÀNG 1: 3 THẺ TỔNG QUAN -->
+          <section class="overview-cards-grid" aria-label="Tổng quan tài chính">
+            
+            <!-- Thẻ Tổng Thu -->
+            <div class="summary-card income-summary-card">
+              <div class="card-inner-top">
+                <span class="summary-label">Tổng thu</span>
+                <div class="trend-icon-box trend-income">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </div>
+              </div>
+              <div id="total-income" class="summary-value income-value">8.500.000 đ</div>
+              <div id="income-count-text" class="summary-subtext">2 khoản thu</div>
+            </div>
+
+            <!-- Thẻ Tổng Chi -->
+            <div class="summary-card expense-summary-card">
+              <div class="card-inner-top">
+                <span class="summary-label">Tổng chi</span>
+                <div class="trend-icon-box trend-expense">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="7" y1="7" x2="17" y2="17" />
+                    <polyline points="17 7 17 17 7 17" />
+                  </svg>
+                </div>
+              </div>
+              <div id="total-expense" class="summary-value expense-value">5.230.000 đ</div>
+              <div id="expense-count-text" class="summary-subtext">14 khoản chi</div>
+            </div>
+
+            <!-- Thẻ Số Dư (Dark Navy Card) -->
+            <div class="summary-card balance-summary-card">
+              <div class="card-inner-top">
+                <span class="summary-label text-white-muted">Số dư</span>
+                <div class="trend-icon-box trend-balance">
+                  <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="M7 15h0M2 9.5h20" />
+                  </svg>
+                </div>
+              </div>
+              <div id="net-balance" class="summary-value balance-value">3.270.000 đ</div>
+              <div class="summary-subtext text-white-muted">Thu – Chi trong tháng</div>
+            </div>
+
+          </section>
+
+          <!-- HÀNG 2: NGÂN SÁCH THÁNG (BUDGET PROGRESS & WARNING) -->
+          <section class="card budget-card-clean" aria-label="Ngân sách tháng">
+            <div class="budget-card-header">
+              <div class="budget-title-wrap">
+                <span class="budget-main-title">Ngân sách tháng</span>
+                <span id="budget-progress-detail" class="budget-spent-ratio">
+                  Đã chi <strong>5.230.000 đ</strong> / 6.000.000 đ
+                </span>
+              </div>
+              <button id="btn-edit-budget" class="btn-subtle-outline" title="Chỉnh sửa hạn mức ngân sách">
+                <span>Đặt hạn mức</span>
+              </button>
+            </div>
+
+            <!-- Thanh tiến độ ngân sách -->
+            <div class="clean-progress-track">
+              <div id="budget-progress-bar" class="clean-progress-fill" style="width: 87%;"></div>
+            </div>
+
+            <!-- Hộp cảnh báo ngân sách (Alert Banner) -->
+            <div id="budget-alert-box" class="budget-warning-banner">
+              <span class="warning-icon">⚠</span>
+              <span id="budget-alert-message" class="warning-message">
+                Bạn đã dùng 87% ngân sách. Còn lại 770.000 đ cho 3 ngày cuối tháng.
+              </span>
+            </div>
+          </section>
+
+          <!-- HÀNG 3: LƯỚI 2 CỘT (GIAO DỊCH GẦN ĐÂY & CHI THEO DANH MỤC) -->
+          <div class="content-dual-grid">
+            
+            <!-- CỘT TRÁI: GIAO DỊCH GẦN ĐÂY -->
+            <section class="card recent-tx-card" aria-label="Giao dịch gần đây">
+              <div class="table-card-header">
+                <h3 class="table-card-title">Giao dịch gần đây</h3>
+                <button id="export-excel-btn" class="btn-export-csv" title="Xuất danh sách ra file CSV mở bằng Excel">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                  </svg>
+                  <span>Xuất CSV</span>
+                </button>
+              </div>
+
+              <!-- Thanh lọc loại & danh mục dạng Pill Segmented Control -->
+              <div class="table-filter-toolbar">
+                <div class="segmented-pills">
+                  <button type="button" class="pill-btn active" data-type="all">Tất cả</button>
+                  <button type="button" class="pill-btn" data-type="income">Thu</button>
+                  <button type="button" class="pill-btn" data-type="expense">Chi</button>
+                </div>
+
+                <div class="category-dropdown-wrap">
+                  <span class="dropdown-label">Danh mục</span>
+                  <div class="select-chevron-box">
+                    <select id="filter-category" class="clean-select">
+                      <option value="all">Tất cả danh mục</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bảng danh sách giao dịch -->
+              <div class="table-responsive-container">
+                <table class="tx-table">
+                  <thead>
+                    <tr>
+                      <th class="th-date">NGÀY</th>
+                      <th class="th-cat">DANH MỤC</th>
+                      <th class="th-note">GHI CHÚ</th>
+                      <th class="th-amount">SỐ TIỀN</th>
+                      <th class="th-actions"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="transaction-list">
+                    <!-- Rows injected dynamically by app.js -->
+                  </tbody>
+                </table>
+
+                <!-- Empty State khi không có dữ liệu -->
+                <div id="empty-state" class="empty-table-state hidden">
+                  <p>Không có giao dịch nào phù hợp với bộ lọc hiện tại.</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- CỘT PHẢI: CHI THEO DANH MỤC (CATEGORY BREAKDOWN BARS) -->
+            <section class="card category-breakdown-card" aria-label="Chi theo danh mục">
+              <div class="breakdown-header">
+                <h3 class="breakdown-title">Chi theo danh mục</h3>
+                <span id="breakdown-total-expense" class="breakdown-subtitle">Tổng chi 5.230.000 đ</span>
+              </div>
+
+              <!-- Danh sách tiến độ từng danh mục -->
+              <div id="category-bars-list" class="category-bars-list">
+                <!-- Rendered dynamically by app.js -->
+              </div>
+            </section>
+
+          </div>
+
+        </div>
+
+        <!-- ================================================================
+             VIEW 2: THỐNG KÊ (BIỂU ĐỒ DONUT SVG & PHÂN TÍCH TỶ TRỌNG)
+             ================================================================ -->
+        <div id="view-statistics" class="view-panel hidden">
+          
+          <!-- Thẻ Thống Kê Tổng Hợp Tháng -->
+          <div class="card stats-summary-header-card">
+            <div class="stats-view-header-row">
+              <div>
+                <h2 class="stats-view-main-title">Báo cáo & Phân tích chi tiêu</h2>
+                <p class="stats-view-desc">Biểu đồ tỷ trọng chi tiết các danh mục chi tiêu trong tháng</p>
+              </div>
+              <span id="stats-active-month-badge" class="stats-active-badge">Tháng 10/2026</span>
+            </div>
+
+            <!-- 3 Khối KPI nhanh -->
+            <div class="stats-kpi-grid">
+              <div class="stats-kpi-item">
+                <span class="kpi-title">Tổng Chi Tiêu</span>
+                <span id="stats-kpi-expense" class="kpi-num text-expense">5.230.000 đ</span>
+              </div>
+              <div class="stats-kpi-item">
+                <span class="kpi-title">Danh Mục Chi Lớn Nhất</span>
+                <span id="stats-kpi-top-category" class="kpi-num text-primary">Ăn uống (38%)</span>
+              </div>
+              <div class="stats-kpi-item">
+                <span class="kpi-title">Số Dư Tích Lũy</span>
+                <span id="stats-kpi-savings" class="kpi-num text-income">3.270.000 đ</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lưới 2 Cột Biểu Đồ: Donut SVG Tròn + Phân Tích Cột -->
+          <div class="stats-charts-row">
+            
+            <!-- Khối 1: Biểu đồ Donut SVG Tròn (Yêu cầu 9) -->
+            <div class="card donut-chart-detailed-card">
+              <div class="chart-box-header">
+                <h3 class="chart-box-title">Biểu đồ Donut Tỷ Trọng Danh Mục</h3>
+                <span class="chart-box-hint">Rà chuột hoặc chạm vào múi để xem số tiền & phần trăm</span>
+              </div>
+
+              <div class="chart-donut-body">
+                <div class="donut-svg-stage">
+                  <svg id="donut-svg" class="donut-svg-graphic" viewBox="0 0 240 240" width="220" height="220">
+                    <circle cx="120" cy="120" r="80" class="donut-bg-circle" />
+                  </svg>
+                  <div class="donut-svg-center">
+                    <span class="donut-center-caption">Tổng Chi</span>
+                    <span id="donut-center-total" class="donut-center-amount">5.230.000 đ</span>
+                  </div>
+                  <!-- Tooltip nổi khi hover múi biểu đồ -->
+                  <div id="chart-tooltip" class="chart-floating-tooltip hidden"></div>
+                </div>
+
+                <!-- Bảng chú thích danh mục (Legend) -->
+                <div id="chart-legend" class="donut-legend-container">
+                  <!-- Injected dynamically by app.js -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Khối 2: Biểu Đồ Cột So Sánh Trực Quan -->
+            <div class="card bars-comparison-card">
+              <div class="chart-box-header">
+                <h3 class="chart-box-title">Xếp hạng chi tiêu các danh mục</h3>
+                <span class="chart-box-hint">Tỷ lệ % trên tổng ngân sách đã chi</span>
+              </div>
+
+              <div id="stats-comparison-bars" class="stats-bars-wrapper">
+                <!-- Injected dynamically by app.js -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- NÚT THÊM NỔI CHO ĐIỆN THOẠI (FAB) -->
+  <button id="mobile-fab" class="mobile-fab" aria-label="Thêm giao dịch mới">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  </button>
+
+  <!-- MODAL 1: THÊM / SỬA GIAO DỊCH -->
+  <div id="tx-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-tx-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-tx-title" class="modal-title">Thêm giao dịch mới</h3>
+        <button id="btn-close-tx-modal" class="btn-close" aria-label="Đóng">&times;</button>
+      </div>
+
+      <form id="tx-form" novalidate>
+        <input type="hidden" id="tx-id" value="" />
+
+        <!-- Toggle Thu / Chi -->
+        <div class="form-group">
+          <label class="form-label">Loại giao dịch <span class="required">*</span></label>
+          <div class="type-toggle-switch">
+            <button type="button" id="toggle-type-expense" class="type-toggle-btn active-expense" data-type="expense">
+              Chi tiêu
+            </button>
+            <button type="button" id="toggle-type-income" class="type-toggle-btn" data-type="income">
+              Thu nhập
+            </button>
+          </div>
+        </div>
+
+        <!-- Số Tiền (Strict Validation) -->
+        <div class="form-group">
+          <label for="tx-amount" class="form-label">Số tiền (đ) <span class="required">*</span></label>
+          <div class="input-money-wrapper">
+            <input type="number" id="tx-amount" class="form-control input-amount" placeholder="Ví dụ: 45000" min="1" step="1" required />
+            <span class="currency-symbol">đ</span>
+          </div>
+          <div id="tx-amount-preview" class="amount-preview">0 đ</div>
+          <div id="tx-amount-error" class="field-error-msg hidden">Vui lòng nhập số tiền hợp lệ (> 0).</div>
+        </div>
+
+        <!-- Danh Mục -->
+        <div class="form-group">
+          <label for="tx-category" class="form-label">Danh mục <span class="required">*</span></label>
+          <select id="tx-category" class="form-control" required>
+            <option value="">-- Chọn danh mục --</option>
+          </select>
+          <div id="tx-category-error" class="field-error-msg hidden">Vui lòng chọn danh mục.</div>
+        </div>
+
+        <!-- Ngày Giao Dịch -->
+        <div class="form-group">
+          <label for="tx-date" class="form-label">Ngày giao dịch <span class="required">*</span></label>
+          <input type="date" id="tx-date" class="form-control" required />
+          <div id="tx-date-error" class="field-error-msg hidden">Vui lòng chọn ngày hợp lệ.</div>
+        </div>
+
+        <!-- Ghi Chú -->
+        <div class="form-group">
+          <label for="tx-note" class="form-label">Ghi chú chi tiết</label>
+          <input type="text" id="tx-note" class="form-control" placeholder="Ví dụ: Cà phê với nhóm..." maxlength="200" />
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-tx" class="btn btn-outline">Hủy bỏ</button>
+          <button type="submit" id="btn-submit-tx" class="btn btn-primary">Lưu giao dịch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: XÁC NHẬN XÓA GIAO DỊCH -->
+  <div id="delete-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-del-title">
+    <div class="modal-card modal-sm">
+      <div class="delete-icon-badge">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#ef4444" stroke-width="2">
+          <polyline points="3 6 5 6 21 6" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+        </svg>
+      </div>
+
+      <h3 id="modal-del-title" class="modal-title text-center">Xóa giao dịch?</h3>
+      <p class="modal-desc text-center">
+        Bạn có chắc muốn xóa giao dịch này? Hành động này không thể hoàn tác.
+      </p>
+
+      <div id="delete-tx-preview" class="delete-tx-box"></div>
+
+      <div class="modal-footer footer-center">
+        <button type="button" id="btn-cancel-delete" class="btn btn-outline">Hủy bỏ</button>
+        <button type="button" id="btn-confirm-delete" class="btn btn-danger">Xóa giao dịch</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CÀI ĐẶT HẠN MỨC NGÂN SÁCH -->
+  <div id="budget-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-budget-title">
+    <div class="modal-card modal-sm">
+      <div class="modal-header">
+        <h3 id="modal-budget-title" class="modal-title">Đặt hạn mức ngân sách tháng</h3>
+        <button id="btn-close-budget-modal" class="btn-close">&times;</button>
+      </div>
+
+      <form id="budget-form">
+        <p class="modal-desc">
+          Nhập số tiền chi tiêu tối đa trong tháng để hệ thống tự động theo dõi và cảnh báo.
+        </p>
+
+        <div class="form-group">
+          <label for="budget-input" class="form-label">Hạn mức chi tiêu (đ) <span class="required">*</span></label>
+          <div class="input-money-wrapper">
+            <input type="number" id="budget-input" class="form-control input-amount" placeholder="Ví dụ: 6000000" min="100000" step="50000" required />
+            <span class="currency-symbol">đ</span>
+          </div>
+          <div id="budget-preview" class="amount-preview">0 đ</div>
+          <div id="budget-input-error" class="field-error-msg hidden">Vui lòng nhập hạn mức lớn hơn 0.</div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-budget" class="btn btn-outline">Hủy</button>
+          <button type="submit" id="btn-save-budget" class="btn btn-primary">Lưu hạn mức</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

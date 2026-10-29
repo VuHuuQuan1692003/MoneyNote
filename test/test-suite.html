@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>MoneyNote – Automated Test Suite</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 2rem; background: #f8fafc; color: #0f172a; }
+    h1 { margin-bottom: 1rem; }
+    .test-summary { font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem; }
+    .passed-badge { color: #059669; }
+    .failed-badge { color: #dc2626; }
+    .test-case { background: white; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .test-case.pass { border-left: 5px solid #10b981; }
+    .test-case.fail { border-left: 5px solid #ef4444; background: #fef2f2; }
+    .badge { padding: 0.25rem 0.5rem; border-radius: 4px; font-weight: bold; font-size: 0.8rem; }
+    .badge-pass { background: #d1fae5; color: #065f46; }
+    .badge-fail { background: #fee2e2; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <h1>MoneyNote – Bộ Kiểm Thử Tự Động (Test Suite)</h1>
+  <div id="test-summary" class="test-summary">Đang chạy kiểm thử...</div>
+  <div id="test-results"></div>
+
+  <!-- Nạp app.js -->
+  <script src="../app.js"></script>
+  <script>
+    const resultsContainer = document.getElementById('test-results');
+    const summaryContainer = document.getElementById('test-summary');
+    let passedCount = 0;
+    let failedCount = 0;
+
+    function assert(name, condition, extraInfo = '') {
+      const el = document.createElement('div');
+      el.className = 'test-case ' + (condition ? 'pass' : 'fail');
+      el.innerHTML = `
+        <div>
+          <strong>${name}</strong>
+          ${extraInfo ? `<div style="font-size: 0.8rem; color: #64748b;">${extraInfo}</div>` : ''}
+        </div>
+        <span class="badge ${condition ? 'badge-pass' : 'badge-fail'}">${condition ? 'PASS' : 'FAIL'}</span>
+      `;
+      resultsContainer.appendChild(el);
+      if (condition) passedCount++; else failedCount++;
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // 1. Kiểm thử Utils.formatVND
+      assert('Utils.formatVND định dạng số tiền chuẩn tiếng Việt', 
+        MoneyNote.Utils.formatVND(150000).includes('150.000') && (MoneyNote.Utils.formatVND(150000).includes('đ') || MoneyNote.Utils.formatVND(150000).includes('₫')),
+        'Đầu vào: 150000 -> Đầu ra: ' + MoneyNote.Utils.formatVND(150000)
+      );
+
+      // 2. Kiểm thử Validator với số tiền sai (âm, 0, chữ)
+      const valNegative = MoneyNote.Validator.validateTransaction({ type: 'expense', amount: -50000, category: 'Ăn uống', date: '2026-10-29' });
+      assert('Validator chặn số tiền âm', !valNegative.isValid && valNegative.errors.amount);
+
+      const valZero = MoneyNote.Validator.validateTransaction({ type: 'expense', amount: 0, category: 'Ăn uống', date: '2026-10-29' });
+      assert('Validator chặn số tiền bằng 0', !valZero.isValid && valZero.errors.amount);
+
+      const valNaN = MoneyNote.Validator.validateTransaction({ type: 'expense', amount: NaN, category: 'Ăn uống', date: '2026-10-29' });
+      assert('Validator chặn số tiền không phải số (NaN)', !valNaN.isValid && valNaN.errors.amount);
+
+      // 3. Kiểm thử Validator với thiếu danh mục
+      const valNoCat = MoneyNote.Validator.validateTransaction({ type: 'expense', amount: 50000, category: '', date: '2026-10-29' });
+      assert('Validator chặn danh mục rỗng', !valNoCat.isValid && valNoCat.errors.category);
+
+      // 4. Kiểm thử Validator với thiếu ngày
+      const valNoDate = MoneyNote.Validator.validateTransaction({ type: 'expense', amount: 50000, category: 'Ăn uống', date: '' });
+      assert('Validator chặn ngày rỗng', !valNoDate.isValid && valNoDate.errors.date);
+
+      // 5. Kiểm thử Validator với dữ liệu hợp lệ
+      const valValid = MoneyNote.Validator.validateTransaction({ type: 'income', amount: 15000000, category: 'Tiền lương', date: '2026-10-29', note: 'Lương tháng 10' });
+      assert('Validator chấp nhận giao dịch đầy đủ và hợp lệ', valValid.isValid && Object.keys(valValid.errors).length === 0);
+
+      // 6. Kiểm thử tính toán Dashboard Tổng Thu, Tổng Chi, Số Dư
+      const sampleTxs = [
+        { type: 'income', amount: 20000000, date: '2026-10-01' },
+        { type: 'expense', amount: 5000000, date: '2026-10-05' },
+        { type: 'expense', amount: 3000000, date: '2026-10-10' }
+      ];
+      const stats = MoneyNote.calculateStats(sampleTxs);
+      assert('Tính đúng Tổng Thu = 20.000.000', stats.totalIncome === 20000000);
+      assert('Tính đúng Tổng Chi = 8.000.000', stats.totalExpense === 8000000);
+      assert('Tính đúng Số Dư = 12.000.000', stats.balance === 12000000);
+
+      // 7. Kiểm thử tính toán Hạn mức chi tiêu & Cảnh báo
+      const budgetCheckSafe = MoneyNote.calculateBudgetProgress(7000000, 10000000);
+      assert('Hạn mức dưới 80% an toàn', budgetCheckSafe.percent === 70 && !budgetCheckSafe.isExceeded && budgetCheckSafe.status === 'safe');
+
+      const budgetCheckExceeded = MoneyNote.calculateBudgetProgress(12000000, 10000000);
+      assert('Hạn mức trên 100% cảnh báo vượt', budgetCheckExceeded.percent === 120 && budgetCheckExceeded.isExceeded && budgetCheckExceeded.exceededAmount === 2000000);
+
+      // 8. Kiểm thử CSV Export với UTF-8 BOM và escape ký tự
+      const csvContent = MoneyNote.generateCSV([
+        { id: '1', date: '2026-10-29', type: 'expense', category: 'Ăn uống', note: 'Ăn trưa, phở "bò"', amount: 65000 }
+      ]);
+      assert('CSV có mã UTF-8 BOM ở đầu chuỗi', csvContent.startsWith('\uFEFF'));
+      assert('CSV escape dấu phẩy và ngoặc kép đúng chuẩn', csvContent.includes('"Ăn trưa, phở ""bò"""'));
+
+      // 9. Kiểm thử tìm kiếm không dấu tiếng Việt
+      const norm1 = MoneyNote.Utils.normalizeVN('Cà phê Highland');
+      const norm2 = MoneyNote.Utils.normalizeVN('ca phe');
+      assert('Tìm kiếm không phân biệt dấu tiếng Việt', norm1.includes(norm2));
+
+      // Tổng kết
+      summaryContainer.innerHTML = `
+        Tổng số: ${passedCount + failedCount} kiểm thử | 
+        <span class="passed-badge">${passedCount} ĐẠT (PASS)</span> | 
+        <span class="failed-badge">${failedCount} THẤT BẠI (FAIL)</span>
+      `;
+    });
+  </script>
+</body>
+</html>
+
